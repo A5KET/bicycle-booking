@@ -1,0 +1,117 @@
+* {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  font-family: 'Saira', sans-serif;
+}
+
+header {
+  height: 42px;
+  background: #696969;
+}
+
+.bikes {
+  padding: 9px;
+  border-right: solid 1px #C4C4C4;
+  flex: 1;
+}
+
+.bike-info {
+  display: flex;
+  flex-direction: row;
+  white-space: nowrap;
+  padding: 12px 18px;
+  background: #E8E8E8;
+  border-radius: 10px;
+}
+
+.bike-info.available {
+  border: solid 2px #6FCF97;
+}
+
+.bike-info.busy {
+  border: solid 2px #F2994A;
+}
+
+.bike-info.unavailable {
+  border: solid 2px #EB5757;
+  opacity: 0.5;
+}
+
+.bike-info-right-column {
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  align-content: flex-end;
+  justify-content: space-between;
+}
+
+.bike-info-button {
+  background: none;
+  border: none;
+}
+
+.bike-info-price {
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.bike-info-button-image {
+  height: 12px;
+  width: 12px;
+}
+
+.bike-info-button:hover {
+  background: #C4C4C4;
+}
+
+.bike-info-name {
+  color: #333333;
+  font-weight: 700;
+}
+
+.bike-info-id {
+  font-size: 8px;
+  color: #717171;
+}
+
+.bike-info-status {
+  font-size: 14px;
+}
+
+.bike-info-status-select {
+  margin-left: 5px;
+  background: none;
+  border: none;
+}
+
+.bike-form {
+  width: 300px;
+}
+
+.statistics {
+  padding: 18px 0 0 18px;
+  border-top: solid 1px #C4C4C4;
+}
+
+.statistics-title {
+  font-size: 18px;
+  font-weight: 700;
+}
