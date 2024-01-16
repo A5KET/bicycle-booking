@@ -1,60 +1,41 @@
 import { useState } from 'react'
 
 import Bike from './Bike'
+import { BikeStatus } from './Bike'
+import BikeForm from './BikeForm'
 
 
-const BikeStatus = {
-  Available: 'available',
-  Busy: 'ausy',
-  Unavailable: 'unavailable'
-}
-
-
-function BikeForm({onFormSubmit}) {
-  return (
-    <form onSubmit={onFormSubmit}>
-      
-    </form>
-  )
-}
-
-
-function Statistics({total, available, booked, averagePrice}) {
+function Statistics({ total, available, booked, averagePrice }) {
   return (
     <div className='statistics'>
       <span className='statistics-title'>STATISTICS</span>
-      <div>Total Bikes: <span className='statistics-number'>{total}</span></div>
-      <div>Available Bikes: <span className='statistics-number'>{available}</span></div>
-      <div> Booked Bikes: <span className='statistics-number'>{booked}</span></div>
-      <div>Average bike cost: <span className='statistics-number'>{averagePrice}</span>UAH/hr.</div>
+      <div>Total Bikes: <span className='bold'>{total}</span></div>
+      <div>Available Bikes: <span className='bold'>{available}</span></div>
+      <div> Booked Bikes: <span className='bold'>{booked}</span></div>
+      <div>Average bike cost: <span className='bold'>{averagePrice.toFixed(2)}</span> UAH/hr.</div>
     </div>
   )
 }
 
 
 export default function App() {
-  const bikeStatusOptions = [
-    'Available',
-    'Busy',
-    'Unavailable'
-  ]
-  const bikes = [
-    {
-      id: 0,
-      name: 'bike',
-      type: 'type',
-      color: 'red',
-      status: 'available',
-      pricePerHour: 10
-    }
-  ]
+  const testBike = {
+    name: 'Bike',
+    id: 12345678,
+    status: BikeStatus.Available,
+    type: 'Type',
+    color: 'Red',
+    pricePerHour: 12.543
+  }
+  const [bikes, setBikes] = useState([testBike])
+
 
   function getNumberOfBikes() {
     return bikes.length
   }
 
   function getNumberOfBikesWithStatus(status) {
-    return bikes.filter((bike) => {bike.status == status}).length
+    return bikes.filter((bike) => { bike.status == status }).length
   }
 
   function getNumberOfAvailableBikes() {
@@ -72,31 +53,46 @@ export default function App() {
       return 0
     }
 
-    let totalPrice = 0
-    for (const bike of bikes) {
-      totalPrice += bike.pricePerHour
-    }
+    const totalPrice = bikes.reduce((accumulator, bike) => accumulator + bike.pricePerHour, 0)
 
     return totalPrice / numberOfBikes
   }
 
-  function onBikeStatusChange(bike, newStatus) {
+  function addBike(bike) {
+    setBikes(
+      [...bikes, bike]
+    )
+  }
 
+  function onBikeDelete(bike) {
+    setBikes(
+      bikes.filter(el => el != bike)
+    )
+  }
+
+  function onBikeStatusChange(bike, newStatus) {
+    if (bike.status != newStatus) {
+      setBikes(
+        bikes.map(
+          el => el == bike ? Object.assign({}, bike, { status: newStatus }) : el
+        )
+      )
+    }
   }
 
   return (
     <>
       <header>
-
+        <h1 className='main-title'>ADMIN.BIKE-BOOKING.COM</h1>
       </header>
       <main>
         <ul className='bikes'>
-          {bikes.map((bikeInfo) => (<li key={bikeInfo.id}><Bike bikeInfo={bikeInfo} statusOptions={bikeStatusOptions} onStatusChange={onBikeStatusChange} /></li>))}
+          {bikes.map((bikeInfo) => (<li key={bikeInfo.id}><Bike bikeInfo={bikeInfo} onDelete={onBikeDelete} onStatusChange={onBikeStatusChange} /></li>))}
         </ul>
         <div>
-          <BikeForm />
-          <Statistics 
-            total={getNumberOfBikes()} 
+          <BikeForm onSubmit={addBike} />
+          <Statistics
+            total={getNumberOfBikes()}
             available={getNumberOfAvailableBikes()}
             booked={getNumberOfBusyBikes()}
             averagePrice={getAverageBikeCost()}
@@ -104,5 +100,5 @@ export default function App() {
         </div>
       </main>
     </>
-  ) 
+  )
 }
