@@ -1,5 +1,3 @@
-import { useState } from 'react'
-
 import { capitalize } from './string'
 
 
@@ -11,8 +9,6 @@ export const BikeStatus = {
 
 
 export default function Bike({bikeInfo, onDelete, onStatusChange}) {
-  console.log(bikeInfo)
-
   function onStatusSelectChange(event) {
     const selectedStatus = event.target.options[event.target.selectedIndex].value.toLowerCase()
 
@@ -24,14 +20,14 @@ export default function Bike({bikeInfo, onDelete, onStatusChange}) {
   }
 
   return (
-      <div className={`bike-info ${bikeInfo.status}`}bike-info >
+      <div className={`bike-info ${bikeInfo.status}`}>
         <div>
           <span className='bike-info-name uppercase'>{bikeInfo.name}</span> - <span className='bike-info-type uppercase'>{bikeInfo.type} ({bikeInfo.color})</span><br />
           <span className='bike-info-id'>ID: {bikeInfo.id}</span>
           <div className='bike-info-status'>
             STATUS:
             <select className='bike-info-status-select' onChange={onStatusSelectChange}>
-              {Object.values(BikeStatus).map((option) => (<option value={option} className='bike-info-status-option'>{capitalize(option)}</option>))}
+              {Object.values(BikeStatus).map((option) => (<option value={option} selected={option == bikeInfo.status} className='bike-info-status-option'>{capitalize(option)}</option>))}
             </select>
           </div>
         </div>
