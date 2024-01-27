@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import Bike from './Bike'
 import { BikeStatus } from './Bike'
@@ -18,16 +18,14 @@ function Statistics({ total, available, booked, averagePrice }) {
 }
 
 
-export default function App() {
-  const testBike = {
-    name: 'Bike',
-    id: 12345678,
-    status: BikeStatus.Available,
-    type: 'Type',
-    color: 'Red',
-    pricePerHour: 12.543
-  }
-  const [bikes, setBikes] = useState([testBike])
+export default function App({ repository }) {
+  const [bikes, setBikes] = useState([])
+
+  useEffect(() => {
+    repository.getBikes().then((bikes) => {
+      setBikes(bikes)
+    })
+  }, [])
 
 
   function getNumberOfBikes() {
@@ -59,12 +57,16 @@ export default function App() {
   }
 
   function addBike(bike) {
+    repository.addBike(bike)
+
     setBikes(
       [...bikes, bike]
     )
   }
 
   function onBikeDelete(bike) {
+    repository.deleteBike(bike)
+
     setBikes(
       bikes.filter(el => el != bike)
     )
@@ -72,9 +74,13 @@ export default function App() {
 
   function onBikeStatusChange(bike, newStatus) {
     if (bike.status != newStatus) {
+      const newBike = Object.assign({}, bike, { status: newStatus })
+
+      repository.updateBike(newBike)
+
       setBikes(
         bikes.map(
-          el => el == bike ? Object.assign({}, bike, { status: newStatus }) : el
+          el => el == bike ? newBike : el
         )
       )
     }
