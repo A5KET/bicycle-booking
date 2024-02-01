@@ -33,7 +33,7 @@ export default function App({ repository }) {
   }
 
   function getNumberOfBikesWithStatus(status) {
-    return bikes.filter((bike) => { bike.status == status }).length
+    return bikes.filter(bike => bike.status == status).length
   }
 
   function getNumberOfAvailableBikes() {
@@ -85,6 +85,7 @@ export default function App({ repository }) {
       )
     }
   }
+
 
   return (
     <>
