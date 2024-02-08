@@ -1,4 +1,4 @@
-const { BikeStatus } = require('./types')
+const { BikeStatus } = require('../types')
 
 
 class BikeRepository {
@@ -31,6 +31,10 @@ class BikeRepository {
     ]
   }
 
+  getBike(bikeId) {
+    return this.bikes.find((bike => bike.id === bikeId))
+  }
+
   getBikes() {
     return this.bikes
   }
@@ -45,7 +49,6 @@ class BikeRepository {
 
   updateBike(bike) {
     this.bikes = this.bikes.map(el => el.id == bike.id ? bike : el)
-    console.log(this.bikes)
   }
 }
 
