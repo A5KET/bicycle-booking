@@ -1,7 +1,7 @@
 const express = require('express')
 
-const { BikeRepository } = require('./bikes/repositories')
-const BikeRouter = require('./bikes/router')
+const { BikeRepository } = require('./repositories')
+const BikeRouter = require('./router')
 const { CORSMiddleware } = require('./middlewares')
 
 const PORT = 3500

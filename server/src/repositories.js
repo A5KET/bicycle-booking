@@ -1,4 +1,4 @@
-const { BikeStatus } = require('../types')
+const { BikeStatus } = require('./types')
 
 
 class BikeRepository {
@@ -11,6 +11,7 @@ class BikeRepository {
         type: 'Mountain Bike',
         color: 'Blue',
         pricePerHour: 15.99,
+        wheelSize: 12
       },
       {
         name: 'City Cruiser',
@@ -19,6 +20,7 @@ class BikeRepository {
         type: 'City Bike',
         color: 'Green',
         pricePerHour: 18.50,
+        wheelSize: 15
       },
       {
         name: 'Electric Commuter',
@@ -27,6 +29,7 @@ class BikeRepository {
         type: 'Electric Bike',
         color: 'Silver',
         pricePerHour: 25.75,
+        wheelSize: 17
       }
     ]
   }
@@ -43,12 +46,16 @@ class BikeRepository {
     this.bikes.push(bike)
   }
 
-  deleteBike(bike) {
-    this.bikes = this.bikes.filter(curBike => curBike.id == bike.id)
+  deleteBike(bikeId) {
+    this.bikes = this.bikes.filter(curBike => curBike.id == bikeId)
   }
 
-  updateBike(bike) {
-    this.bikes = this.bikes.map(el => el.id == bike.id ? bike : el)
+  updateBike(bikeId, bike) {
+    this.bikes = this.bikes.map(el => el.id == bikeId ? bike : el)
+  }
+
+  isBikeExists(bikeId) {
+    return Boolean(this.getBike(bikeId))
   }
 }
 
