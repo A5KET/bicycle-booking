@@ -8,8 +8,14 @@ function BikeRouter(repository) {
 
   router.get('/:bikeId', async (req, res) => {
     const bikeId = req.params.bikeId
+    const bike = await repository.getBike(bikeId)
 
-    res.json({bike: await repository.getBike(bikeId)})
+    if (!bike) {
+      res.status(404).end()
+      return
+    }
+
+    res.json({bike: bike})
   })
 
   router.delete('/:bikeId', async (req, res) => {
