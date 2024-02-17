@@ -7,7 +7,7 @@ import App from './App'
 import BikeRepository from './repository'
 
 
-const repository = new BikeRepository('http://localhost:3500')
+const repository = new BikeRepository('http://localhost:3500/bikes')
 
 const root = createRoot(document.getElementById('root'))
 root.render(
