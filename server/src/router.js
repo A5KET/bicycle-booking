@@ -23,6 +23,18 @@ function BikeRouter(repository) {
     const bikeId = req.params.bikeId
     const bike = req.body['bike']
 
+    const validationErrors = validateBike(bike)
+
+    if (validationErrors) {
+      res.status(400).send(validationErrors)
+      return
+    }
+
+    if (bike.id !== bikeId) {
+      res.status(400).end()
+      return
+    }
+
     if (!await repository.isBikeExists(bikeId)) {
       res.status(400).end()
       return
