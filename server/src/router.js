@@ -6,37 +6,37 @@ const { validateBike } = require('./validation')
 function BikeRouter(repository) {
   const router = Router()
 
-  router.get('/:bikeId', (req, res) => {
+  router.get('/:bikeId', async (req, res) => {
     const bikeId = req.params.bikeId
 
-    res.json({bike: repository.getBike(bikeId)})
+    res.json({bike: await repository.getBike(bikeId)})
   })
 
-  router.delete('/:bikeId', (req, res) => {
+  router.delete('/:bikeId', async (req, res) => {
     const bikeId = req.params.bikeId
 
-    repository.deleteBike(bikeId)
+    await repository.deleteBike(bikeId)
     res.end()
   })
 
-  router.put('/:bikeId', (req, res) => { 
+  router.put('/:bikeId', async (req, res) => { 
     const bikeId = req.params.bikeId
     const bike = req.body['bike']
 
-    if (!repository.isBikeExists(bikeId)) {
+    if (!await repository.isBikeExists(bikeId)) {
       res.status(400).end()
       return
     }
     
-    repository.updateBike(bikeId, bike)
+    await repository.updateBike(bikeId, bike)
     res.end()
   })
   
-  router.get('/', (req, res) => {
-    res.json({bikes: repository.getBikes()})
+  router.get('/', async (req, res) => {
+    res.json({bikes: await repository.getBikes()})
   })
   
-  router.post('/', (req, res) => {
+  router.post('/', async (req, res) => {
     const bike = req.body['bike']
     const validationErrors = validateBike(bike)
 
@@ -45,15 +45,14 @@ function BikeRouter(repository) {
       return
     }
     
-    if (repository.isBikeExists(bike.id)) {
+    if (await repository.isBikeExists(bike.id)) {
       res.status(400).send({error: 'bike must have unique ID'})
       return
     }
 
-    repository.addBike(req.body['bike'])
+    await repository.addBike(bike)
     res.end()
   })
-
 
 
   return router

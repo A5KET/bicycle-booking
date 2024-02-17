@@ -34,28 +34,28 @@ class BikeRepository {
     ]
   }
 
-  getBike(bikeId) {
+  async getBike(bikeId) {
     return this.bikes.find((bike => bike.id === bikeId))
   }
 
-  getBikes() {
+  async getBikes() {
     return this.bikes
   }
 
-  addBike(bike) {
+  async addBike(bike) {
     this.bikes.push(bike)
   }
 
-  deleteBike(bikeId) {
+  async deleteBike(bikeId) {
     this.bikes = this.bikes.filter(curBike => curBike.id == bikeId)
   }
 
-  updateBike(bikeId, bike) {
+  async updateBike(bikeId, bike) {
     this.bikes = this.bikes.map(el => el.id == bikeId ? bike : el)
   }
 
-  isBikeExists(bikeId) {
-    return Boolean(this.getBike(bikeId))
+  async isBikeExists(bikeId) {
+    return Boolean(await this.getBike(bikeId))
   }
 }
 
