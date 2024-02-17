@@ -1,57 +1,61 @@
 const { BikeStatus } = require('./types')
 
 
-class BikeRepository {
+class InMemoryBikeRepository {
   constructor() {
-    this.bikes = [
-      {
-        name: 'Mountain Explorer',
-        id: 1,
-        status: BikeStatus.Available,
-        type: 'Mountain Bike',
-        color: 'Blue',
-        pricePerHour: 15.99,
-        wheelSize: 12
-      },
-      {
-        name: 'City Cruiser',
-        id: 2,
-        status: BikeStatus.Busy,
-        type: 'City Bike',
-        color: 'Green',
-        pricePerHour: 18.50,
-        wheelSize: 15
-      },
-      {
-        name: 'Electric Commuter',
-        id: 3,
-        status: BikeStatus.Available,
-        type: 'Electric Bike',
-        color: 'Silver',
-        pricePerHour: 25.75,
-        wheelSize: 17
-      }
-    ]
+    this.bikes = []
   }
 
-  async getBike(bikeId) {
+  getBike(bikeId) {
     return this.bikes.find((bike => bike.id === bikeId))
   }
 
-  async getBikes() {
+  getBikes() {
     return this.bikes
   }
 
-  async addBike(bike) {
+  addBike(bike) {
     this.bikes.push(bike)
   }
 
-  async deleteBike(bikeId) {
+  deleteBike(bikeId) {
     this.bikes = this.bikes.filter(curBike => curBike.id !== bikeId)
   }
 
-  async updateBike(bikeId, bike) {
+  updateBike(bikeId, bike) {
     this.bikes = this.bikes.map(el => el.id == bikeId ? bike : el)
+  }
+
+  isBikeExists(bikeId) {
+    return Boolean(this.getBike(bikeId))
+  }
+}
+
+
+class MongoBikeRepository {
+  constructor(database) {
+    this.database = database
+    this.bikes = database.collection('bikes')
+  }
+
+  async getBike(bikeId) {
+    return await this.bikes.findOne({ id: bikeId }, { projection: { _id: 0 }})
+  }
+
+  async getBikes() {
+    return await this.bikes.find({}, { projection: { _id: 0 }}).toArray()
+  }
+
+  async addBike(bike) {
+    await this.bikes.insertOne(bike)
+  }
+
+  async deleteBike(bikeId) {
+    await this.bikes.deleteOne({ id: bikeId })
+  }
+
+  async updateBike(bikeId, bike) {
+    await this.bikes.updateOne({ id: bikeId }, { $set: bike })
   }
 
   async isBikeExists(bikeId) {
@@ -61,5 +65,6 @@ class BikeRepository {
 
 
 module.exports = {
-  BikeRepository
+  InMemoryBikeRepository,
+  MongoBikeRepository
 }
