@@ -15,6 +15,15 @@ const bikeConstraints = {
     presence: true,
     length: { minimum: 3 }
   },
+  description: {
+    presence: true,
+    length: { minimum: 6 }
+  },
+  status: {
+    inclusion: {
+      within: ['available', 'unavailable', 'busy']
+    }
+  },
   wheelSize: {
     presence: true,
     numericality: { greaterThan: 0 }
@@ -22,7 +31,7 @@ const bikeConstraints = {
   pricePerHour: {
     presence: true,
     numericality: { greaterThan: 0 }
-  }
+  },
 }
 
 
