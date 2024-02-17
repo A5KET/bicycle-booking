@@ -6,6 +6,7 @@ const { validateBike } = require('./validation')
 function BikeRouter(repository) {
   const router = Router()
 
+
   router.get('/:bikeId', async (req, res) => {
     const bikeId = req.params.bikeId
     const bike = await repository.getBike(bikeId)
@@ -18,6 +19,7 @@ function BikeRouter(repository) {
     res.json({bike: bike})
   })
 
+  
   router.delete('/:bikeId', async (req, res) => {
     const bikeId = req.params.bikeId
 
@@ -25,7 +27,8 @@ function BikeRouter(repository) {
     res.end()
   })
 
-  router.put('/:bikeId', async (req, res) => { 
+
+  router.put('/:bikeId', async (req, res) => {
     const bikeId = req.params.bikeId
     const bike = req.body['bike']
 
@@ -50,10 +53,12 @@ function BikeRouter(repository) {
     res.end()
   })
   
+
   router.get('/', async (req, res) => {
     res.json({bikes: await repository.getBikes()})
   })
   
+
   router.post('/', async (req, res) => {
     const bike = req.body['bike']
     const validationErrors = validateBike(bike)
@@ -64,7 +69,7 @@ function BikeRouter(repository) {
     }
     
     if (await repository.isBikeExists(bike.id)) {
-      res.status(400).send({error: 'bike must have unique ID'})
+      res.status(400).send({ message: 'bike must have unique ID' })
       return
     }
 
