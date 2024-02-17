@@ -47,7 +47,7 @@ class BikeRepository {
   }
 
   async deleteBike(bikeId) {
-    this.bikes = this.bikes.filter(curBike => curBike.id == bikeId)
+    this.bikes = this.bikes.filter(curBike => curBike.id !== bikeId)
   }
 
   async updateBike(bikeId, bike) {
