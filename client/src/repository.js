@@ -17,7 +17,7 @@ export default class BikeAdminPanelRepository {
 
   addBike(bike) {
     return postRequest(this.url, {bike: bike}).then((response) => {
-      if (response.message) {
+      if (response && response.message) {
         throw new ValidationError(response.message)
       }
     })
