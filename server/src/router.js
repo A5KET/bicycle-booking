@@ -35,7 +35,7 @@ function BikeRouter(repository) {
     const validationErrors = validateBike(bike)
 
     if (validationErrors) {
-      res.status(400).send(validationErrors)
+      res.status(400).send({ message: validationErrors })
       return
     }
 
@@ -64,7 +64,7 @@ function BikeRouter(repository) {
     const validationErrors = validateBike(bike)
 
     if (validationErrors) {
-      res.status(400).send(validationErrors)
+      res.status(400).send({ message: validationErrors })
       return
     }
     
