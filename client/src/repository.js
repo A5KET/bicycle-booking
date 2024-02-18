@@ -1,4 +1,9 @@
-const { getRequest, postRequest, deleteRequest, putRequest } = require('./requests')
+import { getRequest, postRequest, deleteRequest, putRequest } from './requests'
+
+
+class ValidationError extends Error {
+  
+}
 
 
 export default class BikeAdminPanelRepository {
@@ -11,7 +16,11 @@ export default class BikeAdminPanelRepository {
   }
 
   addBike(bike) {
-    return postRequest(this.url, {bike: bike})
+    return postRequest(this.url, {bike: bike}).then((response) => {
+      if (response.message) {
+        throw new ValidationError(response.message)
+      }
+    })
   }
 
   deleteBike(bike) {

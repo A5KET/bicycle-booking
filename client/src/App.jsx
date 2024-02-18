@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react'
 import Bike from './Bike'
 import { BikeStatus } from './Bike'
 import BikeForm from './BikeForm'
+import Notification from './Notification'
+import useNotification from './useNotification'
 
 
 function Statistics({ total, available, booked, averagePrice }) {
@@ -20,6 +22,7 @@ function Statistics({ total, available, booked, averagePrice }) {
 
 export default function App({ repository }) {
   const [bikes, setBikes] = useState([])
+  const [visible, text, showNotification] = useNotification()
 
   useEffect(() => {
     repository.getBikes().then((bikes) => {
@@ -57,32 +60,34 @@ export default function App({ repository }) {
   }
 
   function addBike(bike) {
-    repository.addBike(bike)
-
-    setBikes(
-      [...bikes, bike]
-    )
+    repository.addBike(bike).then((res) => {
+      setBikes(
+        [...bikes, bike]
+      )
+    }).catch((error) => {
+      showNotification(error.message, 10000)
+    })
   }
 
   function onBikeDelete(bike) {
-    repository.deleteBike(bike)
-
-    setBikes(
-      bikes.filter(el => el != bike)
-    )
+    repository.deleteBike(bike).then(() => {
+      setBikes(
+        bikes.filter(el => el != bike)
+      )
+    })
   }
 
   function onBikeStatusChange(bike, newStatus) {
     if (bike.status != newStatus) {
       const newBike = Object.assign({}, bike, { status: newStatus })
 
-      repository.updateBike(newBike)
-
-      setBikes(
-        bikes.map(
-          el => el == bike ? newBike : el
+      repository.updateBike(newBike).then(() => {
+        setBikes(
+          bikes.map(
+            el => el == bike ? newBike : el
+          )
         )
-      )
+      })
     }
   }
 
@@ -97,6 +102,7 @@ export default function App({ repository }) {
           {bikes.map((bikeInfo) => (<li key={bikeInfo.id}><Bike bikeInfo={bikeInfo} onDelete={onBikeDelete} onStatusChange={onBikeStatusChange} /></li>))}
         </ul>
         <div>
+          <Notification visible={visible} text={text}/>
           <BikeForm onSubmit={addBike} />
           <Statistics
             total={getNumberOfBikes()}
