@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react'
 
-import Bike from './Bike'
-import { BikeStatus } from './Bike'
-import BikeForm from './BikeForm'
+import { Bike, BikeForm, BikeStatus } from './Bikes'
 import Notification from './Notification'
 import useNotification from './useNotification'
 
