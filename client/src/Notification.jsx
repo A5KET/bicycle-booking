@@ -1,4 +1,4 @@
-export default function Notification({visible, text}) {
+export default function Notification({ visible, text }) {
   if (!visible) {
     return <></>
   }

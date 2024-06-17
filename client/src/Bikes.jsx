@@ -8,7 +8,7 @@ export const BikeStatus = {
 }
 
 
-export function BikeForm({onSubmit}) {
+export function BikeForm({ onSubmit }) {
   function handleSubmit(event) {
     event.preventDefault()
     const form = event.target
@@ -41,7 +41,7 @@ export function BikeForm({onSubmit}) {
 }
 
 
-export function Bike({bikeInfo, onDelete, onStatusChange}) {
+export function Bike({ bikeInfo, onDelete, onStatusChange }) {
   function onStatusSelectChange(event) {
     const selectedStatus = event.target.options[event.target.selectedIndex].value.toLowerCase()
 
