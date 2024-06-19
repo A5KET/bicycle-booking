@@ -1,8 +1,12 @@
 import { useState } from 'react'
 
 
-export default function useNotification() {
-  const [visible, setVisible] = useState(false)
+/**
+ * 
+ * @returns {[boolean, string, function]}
+ */
+export default function useTemporaryNotification() {
+  const [isVisible, setVisible] = useState(false)
   const [text, setText] = useState('')
 
   function showNotification(text, ms) {
@@ -13,5 +17,5 @@ export default function useNotification() {
     }, ms)
   }
 
-  return [visible, text, showNotification]
+  return [isVisible, text, showNotification]
 }

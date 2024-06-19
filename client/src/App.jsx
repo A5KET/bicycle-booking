@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 
 import { Bike, BikeForm, BikeStatus } from './Bikes'
 import Notification from './Notification'
-import useNotification from './useNotification'
+import useTemporaryNotification from './useNotification'
 
 
 function Statistics({ total, available, booked, averagePrice }) {
@@ -20,7 +20,7 @@ function Statistics({ total, available, booked, averagePrice }) {
 
 export default function App({ repository }) {
   const [bikes, setBikes] = useState([])
-  const [visible, text, showNotification] = useNotification()
+  const [visible, text, showNotification] = useTemporaryNotification()
 
   useEffect(() => {
     repository.getBikes().then((bikes) => {
