@@ -4,14 +4,14 @@ import { createRoot } from 'react-dom/client'
 import './styles.css'
 
 import App from './App'
-import BikeRepository from './repository'
+import BikeService from './services.js'
 
 
-const repository = new BikeRepository('http://localhost:3500/bikes')
+const bikeService = new BikeService('http://localhost:3500/bikes')
 
 const root = createRoot(document.getElementById('root'))
 root.render(
   <StrictMode>
-    <App repository={repository}/>
+    <App service={bikeService}/>
   </StrictMode>
 )

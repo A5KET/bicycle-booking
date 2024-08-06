@@ -6,16 +6,16 @@ class ValidationError extends Error {
 }
 
 
-export default class BikeAdminPanelRepository {
+export default class BikeService {
   constructor(url) {
     this.url = url
   }
 
-  getBikes() {
+  async getBikes() {
     return getRequest(this.url).then(res => res['bikes'])
   }
 
-  addBike(bike) {
+  async addBike(bike) {
     return postRequest(this.url, {bike: bike}).then((response) => {
       if (response && response.message) {
         throw new ValidationError(response.message)
@@ -23,11 +23,11 @@ export default class BikeAdminPanelRepository {
     })
   }
 
-  deleteBike(bike) {
+  async deleteBike(bike) {
     return deleteRequest(this.url + '/' + bike.id, {bike: bike})
   }
 
-  updateBike(bike) {
+  async updateBike(bike) {
     return putRequest(this.url + '/' + bike.id, {bike: bike})
   }
 }

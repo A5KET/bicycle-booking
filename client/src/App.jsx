@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
 
-import { Bike, BikeForm, BikeStatus } from './Bikes'
+import Bike from './Bike'
+import BikeForm from './BikeForm'
 import Notification from './Notification'
 import useTemporaryNotification from './useNotification'
+import { BikeStatus } from './common.js'
 
 
 function Statistics({ total, available, booked, averagePrice }) {
@@ -18,12 +20,12 @@ function Statistics({ total, available, booked, averagePrice }) {
 }
 
 
-export default function App({ repository }) {
+export default function App({ service }) {
   const [bikes, setBikes] = useState([])
   const [visible, text, showNotification] = useTemporaryNotification()
 
   useEffect(() => {
-    repository.getBikes().then((bikes) => {
+    service.getBikes().then((bikes) => {
       setBikes(bikes)
     })
   }, [])
@@ -58,7 +60,7 @@ export default function App({ repository }) {
   }
 
   function addBike(bike) {
-    repository.addBike(bike).then((res) => {
+    service.addBike(bike).then((res) => {
       setBikes(
         [...bikes, bike]
       )
@@ -68,7 +70,7 @@ export default function App({ repository }) {
   }
 
   function onBikeDelete(bike) {
-    repository.deleteBike(bike).then(() => {
+    service.deleteBike(bike).then(() => {
       setBikes(
         bikes.filter(el => el != bike)
       )
@@ -79,7 +81,7 @@ export default function App({ repository }) {
     if (bike.status != newStatus) {
       const newBike = Object.assign({}, bike, { status: newStatus })
 
-      repository.updateBike(newBike).then(() => {
+      service.updateBike(newBike).then(() => {
         setBikes(
           bikes.map(
             el => el == bike ? newBike : el
@@ -93,11 +95,13 @@ export default function App({ repository }) {
   return (
     <>
       <header>
-        <h1 className='main-title'>ADMIN.BIKE-BOOKING.COM</h1>
+        <h1 className='main-title'>BIKE-BOOKING.COM ADMIN</h1>
       </header>
       <main>
         <ul className='bikes'>
-          {bikes.map((bikeInfo) => (<li key={bikeInfo.id}><Bike bikeInfo={bikeInfo} onDelete={onBikeDelete} onStatusChange={onBikeStatusChange} /></li>))}
+          {bikes.map((bike) => (
+            <li key={bike.id}><Bike bikeInfo={bike} onDelete={onBikeDelete} onStatusChange={onBikeStatusChange} /></li>)
+          )}
         </ul>
         <div>
           <Notification visible={visible} text={text}/>
