@@ -1,7 +1,7 @@
 const { BikeStatus } = require('./types')
 
 
-class InMemoryBikeRepository {
+class InMemoryBikeService {
   constructor() {
     this.bikes = []
   }
@@ -32,10 +32,10 @@ class InMemoryBikeRepository {
 }
 
 
-class MongoBikeRepository {
-  constructor(database) {
-    this.database = database
-    this.bikes = database.collection('bikes')
+class MongoBikeService {
+  constructor(databaseConnection) {
+    this.databaseConnection = databaseConnection
+    this.bikes = databaseConnection.collection('bikes')
   }
 
   async getBike(bikeId) {
@@ -65,6 +65,6 @@ class MongoBikeRepository {
 
 
 module.exports = {
-  InMemoryBikeRepository,
-  MongoBikeRepository
+  InMemoryBikeService,
+  MongoBikeService
 }

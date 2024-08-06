@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb')
 
 
-async function connectToDatabase(uri, databaseName) {
+async function createDatabaseConnection(uri, databaseName) {
   const client = new MongoClient(uri)
 
   const database = client.db(databaseName)
@@ -11,5 +11,5 @@ async function connectToDatabase(uri, databaseName) {
 
 
 module.exports = {
-  connectToDatabase
+  createDatabaseConnection
 }
