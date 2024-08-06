@@ -38,9 +38,9 @@ header {
 
 .main-title {
   color: #E8E8E8;
-  font-family: Saira Stencil One;
+  font-family: 'Saira', sans-serif;
   font-size: 24px;
-  font-weight: 400;
+  font-weight: 800;
   margin-left: 12px;
 }
 
@@ -107,7 +107,7 @@ header {
 }
 
 .bike-info-id {
-  font-size: 8px;
+  font-size: 14px;
   color: #717171;
 }
 
